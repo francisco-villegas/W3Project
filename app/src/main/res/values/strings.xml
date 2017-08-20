@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">W3Project</string>
+
+    <!--fa_icons-->
+    <string name="fa_icon_heart">&#xf004;</string>
+    <string name="fa_user">&#xf007;</string>
+
+    <string name="fa_icon_areachart">&#xf1fe;</string>
+    <string name="fa_icon_piechart">&#xf200;</string>
+    <string name="fa_icon_linechart">&#xf201;</string>
+    <string name="fa_flickr">&#xf16e;</string>
+    <string name="fa_image">&#xf03e;</string>
+    <string name="go_accesible">&#xE914;</string>
+
+</resources>

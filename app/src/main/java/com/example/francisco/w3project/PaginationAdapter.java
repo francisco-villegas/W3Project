@@ -2,27 +2,27 @@ package com.example.francisco.w3project;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
+import com.beardedhen.androidbootstrap.BootstrapCircleThumbnail;
+import com.beardedhen.androidbootstrap.BootstrapWell;
 import com.example.francisco.w3project.models.AmazonBook;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Suleiman on 19/10/16.
- */
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -82,43 +82,39 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             case ITEM:
                 final ViewHolder amazonBookVH = (ViewHolder) holder;
 
-                amazonBookVH.mMovieTitle.setText(amazonBook.getTitle());
+                if(amazonBook.getTitle() != null && !amazonBook.getTitle().trim().equals(""))
+                    amazonBookVH.tvName.setText(amazonBook.getTitle());
+                else
+                    amazonBookVH.tvNameParent.setVisibility(amazonBookVH.tvNameParent.getRootView().GONE);
 
+                if(amazonBook.getAuthor()!=null && !amazonBook.getAuthor().trim().equals(""))
+                    amazonBookVH.tvAuthor.setText(amazonBook.getAuthor());
+                else
+                    amazonBookVH.tvAuthor.setVisibility(amazonBookVH.tvAuthor.getRootView().GONE);
 
-//                amazonBookVH.mYear.setText(
-//                        amazonBook.getReleaseDate().substring(0, 4)  // we want the year only
-//                                + " | "
-//                                + amazonBook.getOriginalLanguage().toUpperCase()
-//                );
-                amazonBookVH.mMovieDesc.setText(amazonBook.getAuthor());
+                Picasso.with(context).load(amazonBook.getImageURL()).into(amazonBookVH.img, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        amazonBookVH.progress.setVisibility(View.GONE);
+                    }
 
-                /**
-                 * Using Glide to handle image loading.
-                 * Learn more about Glide here:
-                 * <a href="http://blog.grafixartist.com/image-gallery-app-android-studio-1-4-glide/" />
-                 */
-                Glide
-                        .with(context)
-                        .load(amazonBook.getImageURL())
-                        .listener(new RequestListener<String, GlideDrawable>() {
-                            @Override
-                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                                // TODO: 08/11/16 handle failure
-                                amazonBookVH.mProgress.setVisibility(View.GONE);
-                                return false;
-                            }
+                    @Override
+                    public void onError() {
+                        //amazonBookVH.progress.setVisibility(View.GONE);
+                    }
+                });
 
-                            @Override
-                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                // image ready, hide progress now
-                                amazonBookVH.mProgress.setVisibility(View.GONE);
-                                return false;   // return false if you want Glide to handle everything else.
-                            }
-                        })
-                        .diskCacheStrategy(DiskCacheStrategy.ALL)   // cache both original & resized image
-                        .centerCrop()
-                        .crossFade()
-                        .into(amazonBookVH.mPosterImg);
+                amazonBookVH.scroll.setOnTouchListener(new View.OnTouchListener() {
+
+                    public boolean onTouch(View v, MotionEvent event) {
+                        // Disallow the touch request for parent scroll on touch of child view
+                        if(amazonBookVH.scroll.getChildAt(0).getHeight() > amazonBookVH.scroll_parent.getMeasuredHeight()) {
+                            v.getParent().requestDisallowInterceptTouchEvent(true);
+                            return false;
+                        }
+                        return true;
+                    }
+                });
 
                 break;
 
@@ -207,20 +203,39 @@ public class PaginationAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
      * Main list's content ViewHolder
      */
     protected class ViewHolder extends RecyclerView.ViewHolder {
-        private TextView mMovieTitle;
-        private TextView mMovieDesc;
-        private TextView mYear; // displays "year | language"
-        private ImageView mPosterImg;
-        private ProgressBar mProgress;
+
+        @Nullable
+        @BindView(R.id.img)
+        BootstrapCircleThumbnail img;
+
+        @Nullable
+        @BindView(R.id.progress)
+        ProgressBar progress;
+
+        @Nullable
+        @BindView(R.id.tvName)
+        TextView tvName;
+
+        @Nullable
+        @BindView(R.id.tvAuthor)
+        TextView tvAuthor;
+
+        @Nullable
+        @BindView(R.id.scroll)
+        ScrollView scroll;
+
+        @Nullable
+        @BindView(R.id.scroll_parent)
+        FrameLayout scroll_parent;
+
+        @Nullable
+        @BindView(R.id.tvNameParent)
+        BootstrapWell tvNameParent;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
-            mMovieTitle = (TextView) itemView.findViewById(R.id.movie_title);
-            mMovieDesc = (TextView) itemView.findViewById(R.id.movie_desc);
-            mYear = (TextView) itemView.findViewById(R.id.movie_year);
-            mPosterImg = (ImageView) itemView.findViewById(R.id.movie_poster);
-            mProgress = (ProgressBar) itemView.findViewById(R.id.movie_progress);
+            ButterKnife.bind(this, itemView);
         }
     }
 

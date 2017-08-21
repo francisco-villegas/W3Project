@@ -33,47 +33,20 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
-                <com.beardedhen.androidbootstrap.BootstrapCircleThumbnail
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:bootstrapBrand="danger"
-                    app:hasBorder="true"
-                    card_view:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    card_view:layout_constraintBottom_toBottomOf="parent"
-                    card_view:layout_constraintLeft_toLeftOf="parent"
-                    android:id="@+id/img" />
 
-                <ProgressBar
-                    android:id="@+id/progress"
-                    style="@style/Widget.AppCompat.ProgressBar"
-                    android:layout_width="@dimen/activity_margin"
-                    android:layout_height="@dimen/activity_margin"
-                    android:layout_gravity="center"
-                    android:theme="@style/CircularProgress"
-                    card_view:layout_constraintBottom_toBottomOf="@+id/img"
-                    android:layout_marginBottom="8dp"
-                    card_view:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginRight="8dp"
-                    card_view:layout_constraintRight_toRightOf="@+id/img"
-                    android:layout_marginLeft="8dp"
-                    card_view:layout_constraintLeft_toLeftOf="@+id/img" />
                 <FrameLayout
                     android:id="@+id/scroll_parent"
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="8dp"
                     android:layout_marginTop="8dp"
                     card_view:layout_constraintBottom_toBottomOf="parent"
-                    card_view:layout_constraintLeft_toRightOf="@+id/img"
                     card_view:layout_constraintTop_toTopOf="parent"
                     card_view:layout_constraintVertical_bias="0.0"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginRight="0dp"
-                    card_view:layout_constraintRight_toRightOf="parent">
+                    android:layout_marginRight="8dp"
+                    card_view:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginLeft="40dp"
+                    card_view:layout_constraintLeft_toLeftOf="parent">
 
                     <ScrollView
                         android:id="@+id/scroll"
@@ -86,25 +59,25 @@
                             android:layout_height="match_parent">
 
                             <TextView
-                                android:id="@+id/tvAuthor"
+                                android:id="@+id/tvMessage"
+                                style="@style/TextAppearance.AppCompat.Caption"
                                 android:layout_width="0dp"
                                 android:layout_height="0dp"
+                                android:layout_marginBottom="8dp"
                                 android:layout_marginEnd="32dp"
+                                android:layout_marginLeft="8dp"
+                                android:layout_marginRight="48dp"
+                                android:layout_marginStart="8dp"
+                                android:layout_marginTop="8dp"
                                 android:text="3212213"
                                 android:textColor="@color/bootstrap_brand_primary"
-                                style="@style/TextAppearance.AppCompat.Caption"
                                 android:textSize="13sp"
                                 android:textStyle="bold|italic"
-                                android:layout_marginStart="8dp"
                                 card_view:layout_constraintBottom_toBottomOf="parent"
-                                android:layout_marginBottom="8dp"
-                                android:layout_marginTop="8dp"
-                                card_view:layout_constraintTop_toBottomOf="@+id/tvNameParent"
-                                android:layout_marginLeft="8dp"
+                                card_view:layout_constraintHorizontal_bias="0.0"
                                 card_view:layout_constraintLeft_toLeftOf="parent"
-                                android:layout_marginRight="48dp"
                                 card_view:layout_constraintRight_toRightOf="parent"
-                                card_view:layout_constraintHorizontal_bias="0.0" />
+                                card_view:layout_constraintTop_toBottomOf="@+id/tvNameParent" />
 
                             <com.beardedhen.androidbootstrap.BootstrapWell
                                 android:id="@+id/tvNameParent"
@@ -120,11 +93,11 @@
                                 card_view:layout_constraintHorizontal_bias="0.5">
 
                                 <TextView
-                                    android:id="@+id/tvName"
+                                    android:id="@+id/tvNumber"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:text="1232"
                                     android:gravity="center_horizontal"
+                                    android:text="1232"
                                     android:textColor="@color/bootstrap_brand_success"
                                     android:textSize="20sp"
                                     android:textStyle="bold|italic" />
